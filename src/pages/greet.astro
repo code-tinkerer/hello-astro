@@ -1,0 +1,27 @@
+---
+import MainLayout from "@/layouts/Main.astro";
+
+import GreetingForm from "@/components/greet/GreetingForm.svelte";
+
+if (Astro.request.method === "GET")
+{
+    console.log("get request received");
+
+    console.log(Astro.url.searchParams);
+}
+
+if (Astro.request.method === "POST")
+{
+    console.log("post request received");
+
+    const greetingForm = await Astro.request.formData();
+
+    const queryParams = new URLSearchParams(greetingForm).toString();
+
+    return Astro.redirect(`?${queryParams}`)
+}
+---
+
+<MainLayout>
+    <GreetingForm name={Astro.url.searchParams.get("name")} />
+</MainLayout>
